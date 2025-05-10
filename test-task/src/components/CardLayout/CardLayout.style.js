@@ -1,5 +1,5 @@
 import { error } from "ajv/dist/vocabularies/applicator/dependencies";
-import { BASE_GRAY } from "../../styles/colors";
+import { BASE_BLACK, BASE_GRAY, SHADOW_BLACK } from "../../styles/colors";
 
 export const style = {
   mainContainer: {
@@ -24,5 +24,10 @@ export const style = {
     cursor: "pointer",
     borderRadius: "6px",
     border: `"1px solid  ${BASE_GRAY}`,
+  },
+  searchInput: {
+    marginLeft: "10px",
+    border: `2px solid  ${BASE_GRAY}`,
+    borderRadius: "3px",
   },
 };

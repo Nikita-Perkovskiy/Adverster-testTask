@@ -7,6 +7,7 @@ export const CardLayout = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [sortName, setSortName] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     getCards()
@@ -31,11 +32,26 @@ export const CardLayout = () => {
     setSortName(newOrder);
   };
 
+  const filterUsers = (users, val) => {
+    if (!val) return users;
+
+    const lowerTerm = val.toLowerCase();
+
+    const checkValue = (value) => {
+      if (typeof value === "string" || typeof value === "number") {
+        return value.toString().toLowerCase().includes(lowerTerm);
+      } else if (typeof value === "object" && value !== null) {
+        return Object.values(value).some(checkValue);
+      }
+      return false;
+    };
+
+    return users.filter((user) => checkValue(user));
+  };
+
   if (error) {
     return <div>Error: {error}</div>;
   }
-
-  console.log(users);
 
   return (
     <main>
@@ -44,10 +60,19 @@ export const CardLayout = () => {
           <button onClick={handleSortToggle} style={style.button}>
             Sort by Name {sortName ? "↓ (A-Z)" : "↑ (Z-A)"}
           </button>
+          <input
+            type="text"
+            placeholder="Search by any parameter..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={style.searchInput}
+          />
         </div>
         <div style={style.cardContainer}>
-          {users.length > 0 ? (
-            users.map((user) => <Card key={user.id} {...user} />)
+          {filterUsers(users, searchTerm).length > 0 ? (
+            filterUsers(users, searchTerm).map((user) => (
+              <Card key={user.id} {...user} />
+            ))
           ) : (
             <p>No Users</p>
           )}
