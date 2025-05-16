@@ -15,6 +15,7 @@ export const style = {
   },
   buttonWrapper: {
     display: "flex",
+    gap: "8px",
     justifyContent: "flex-center",
     margin: "10px",
   },
